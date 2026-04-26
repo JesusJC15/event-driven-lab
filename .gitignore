@@ -1,0 +1,32 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# Build outputs
+target/
+bin/
+out/
+build/
+dist/
+
+# Maven / Gradle
+.gradle/
+.mvn/
+!mvnw
+!mvnw.cmd
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

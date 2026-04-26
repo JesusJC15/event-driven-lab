@@ -1,6 +1,6 @@
 # event-driven-lab 🚀
 
-Laboratorio completo de **arquitectura dirigida por eventos (Event-Driven)** usando **Spring Boot 3** y **RabbitMQ**. 
+Laboratorio completo de **arquitectura dirigida por eventos (Event-Driven)** usando **Spring Boot 3** y **RabbitMQ**.
 
 Incluye dos microservicios Spring Boot, configuración Docker Compose, imágenes publicadas en Docker Hub, y guías para ejecutar en local o en Killercoda (entorno online gratuito).
 
@@ -19,7 +19,6 @@ Incluye dos microservicios Spring Boot, configuración Docker Compose, imágenes
 - [Configuración RabbitMQ](#configuración-rabbitmq)
 - [Compilar desde Código Fuente](#compilar-desde-código-fuente)
 - [Limpiar el Entorno](#limpiar-el-entorno)
-- [Troubleshooting](#troubleshooting)
 - [Recursos Adicionales](#recursos-adicionales)
 
 ---
@@ -32,7 +31,7 @@ Este proyecto implementa un patrón de **arquitectura dirigida por eventos** don
 - **Consumer Service**: Escucha mensajes de RabbitMQ y procesa eventos de forma asíncrona.
 - **RabbitMQ**: Broker de mensajes que facilita la comunicación entre servicios.
 
-### Características:
+### Características
 
 ✅ Comunicación asíncrona entre microservicios  
 ✅ Desacoplamiento de servicios mediante eventos  
@@ -76,19 +75,18 @@ Este proyecto implementa un patrón de **arquitectura dirigida por eventos** don
          └──────────────────────────────┘
 ```
 
-**[Insertar captura de Killercoda con servicios en ejecución]**  
-![Architecture Flow](https://via.placeholder.com/800x400?text=Killercoda+Execution+Flow)
-
 ---
 
 ## 🔧 Requisitos
 
-### Para ejecutar con Docker (recomendado):
+### Para ejecutar con Docker (recomendado)
+
 - Docker 20.10+
 - Docker Compose V1 (`docker-compose`) o V2 (`docker compose`)
 - ~2 GB RAM disponible
 
-### Para compilar desde código fuente:
+### Para compilar desde código fuente
+
 - Java 17 JDK
 - Maven 3.9+
 - Docker (para construir imágenes)
@@ -168,17 +166,11 @@ Si no sabes cuál tienes, prueba primero con `docker-compose --version`.
 docker-compose ps
 ```
 
-Deberías ver:
+![Docker images](./public/img/docker-images.png)
 
-```
-NAME               IMAGE                               COMMAND              SERVICE     CREATED      STATUS               PORTS
-rabbitmq           rabbitmq:3.13-management            "docker-entrypoint…" rabbitmq    2 mins ago   Up 1 min (healthy)  5672/tcp, 15672/tcp
-producer-service   jesusjc15/producer-service:latest   "java -jar app.jar"  producer    2 mins ago   Up 1 min             0.0.0.0:8080->8080/tcp
-consumer-service   jesusjc15/consumer-service:latest   "java -jar app.jar"  consumer    2 mins ago   Up 1 min
-```
+#### Evidencias desde Killercoda
 
-**[Insertar captura: docker-compose ps output]**  
-![Docker Compose Status](https://via.placeholder.com/800x200?text=docker-compose+ps+Output)
+![Repositorio clonado en Killercoda](./public/img/repo-killer.png)
 
 ---
 
@@ -186,10 +178,10 @@ consumer-service   jesusjc15/consumer-service:latest   "java -jar app.jar"  cons
 
 **¿Por qué Killercoda?** Es un sandbox Linux gratuito en el navegador con Docker preinstalado.
 
-### Pasos:
+### Pasos
 
 1. **Abre Killercoda:**
-   - Navega a https://killercoda.com/playgrounds/create/ubuntu
+   - Navega a <https://killercoda.com/playgrounds/create/ubuntu>
    - Inicia sesión con GitHub o Google
 
 2. **Clona el repositorio:**
@@ -211,8 +203,7 @@ consumer-service   jesusjc15/consumer-service:latest   "java -jar app.jar"  cons
    docker-compose up -d
    ```
 
-   **[Insertar captura: docker-compose up output en Killercoda]**  
-   ![Docker Compose Up](https://via.placeholder.com/800x300?text=docker-compose+up+-d+in+Killercoda)
+   ![Docker Compose Up](./public/img/docekr-killer.png)
 
 5. **Espera ~30 segundos a que RabbitMQ esté listo:**
 
@@ -220,13 +211,12 @@ consumer-service   jesusjc15/consumer-service:latest   "java -jar app.jar"  cons
    docker-compose ps
    ```
 
+   ![Docker Compose Ps](./public/img/docker-status-killler.png)
+
 6. **Expone los puertos en Killercoda:**
    - Haz clic en el botón **"Traffic / Port"** (esquina superior derecha)
    - Expone puerto **8080** (Producer API)
    - Expone puerto **15672** (RabbitMQ Management UI)
-
-   **[Insertar captura: Botón Traffic/Port en Killercoda UI]**  
-   ![Killercoda Traffic Port Button](https://via.placeholder.com/800x400?text=Killercoda+Traffic+Port+Configuration)
 
 ---
 
@@ -235,17 +225,16 @@ consumer-service   jesusjc15/consumer-service:latest   "java -jar app.jar"  cons
 ### Paso 1: Enviar un mensaje desde el Productor
 
 ```bash
-curl -X POST "http://localhost:8080/api/messages/send?message=HolaDesdeTest"
+curl -X POST "http://localhost:8080/api/messages/send?message=HolaDesdeKillercoda"
 ```
 
 **Respuesta esperada:**
 
 ```
-Mensaje 'HolaDesdeTest' enviado!
+Mensaje 'HolaDesdeKillercoda' enviado!
 ```
 
-**[Insertar captura: curl comando y respuesta exitosa]**  
-![Curl Request Success](https://via.placeholder.com/800x200?text=curl+POST+/api/messages/send+Response)
+![Curl Request Success](./public/img/prueba-killer.png)
 
 ### Paso 2: Verificar recepción en el Consumidor
 
@@ -256,23 +245,23 @@ docker-compose logs consumer --tail 20
 **Deberías ver logs similares a:**
 
 ```
-consumer-service  | 2026-04-25T03:11:33.248Z  INFO 1 --- [consumer-service] [ntContainer#0-2] c.e.a.c.listener.MessageListener         : Mensaje recibido: 'HolaDesdeTest'
-consumer-service  | >>> Mensaje Procesado: HolaDesdeTest
+consumer-service  | 2026-04-25T03:11:33.248Z  INFO 1 --- [consumer-service] [ntContainer#0-2] c.e.a.c.listener.MessageListener         : Mensaje recibido: 'HolaDesdeKilercoda'
+consumer-service  | >>> Mensaje Procesado: HolaDesdeKilercoda
 ```
 
-**[Insertar captura: logs del consumidor mostrando mensaje procesado]**  
-![Consumer Logs](https://via.placeholder.com/800x250?text=Consumer+Service+Logs+with+Processed+Message)
+![Consumer Logs](./public/img/logs-kiler.png)
 
 ### Paso 3: Visualizar en RabbitMQ Management UI
 
-- Abre http://localhost:15672
+- Abre <http://localhost:15672>
 - Inicia sesión: `guest` / `guest`
 - Ve a la pestaña **Queues**
 - Haz clic en `messages.queue`
 - Verás estadísticas de mensajes enviados, reconocidos, etc.
 
-**[Insertar captura: RabbitMQ UI con cola visualizada]**  
-![RabbitMQ Management UI](https://via.placeholder.com/800x400?text=RabbitMQ+Management+Dashboard+with+Queue+Stats)
+![RabbitMQ Management UI](./public/img/check-killer.png)
+
+![RabbitMQ Management UI](./public/img/check-killer2.png)
 
 ### Paso 4: Test End-to-End Completo
 
@@ -288,18 +277,15 @@ curl -X POST "http://localhost:8080/api/messages/send?message=Mensaje2"
 curl -X POST "http://localhost:8080/api/messages/send?message=Mensaje3"
 ```
 
-**[Insertar captura: flujo completo en ejecución con múltiples mensajes]**  
-![Full End-to-End Flow](https://via.placeholder.com/800x300?text=Complete+Event-Driven+Flow+Test)
-
 ---
 
 ## 🌐 Servicios Expuestos
 
 | Servicio | URL / Puerto | Descripción |
 |----------|-------------|-------------|
-| **Producer API** | http://localhost:8080 | Endpoint REST para enviar mensajes |
+| **Producer API** | <http://localhost:8080> | Endpoint REST para enviar mensajes |
 | **RabbitMQ AMQP** | localhost:5672 | Protocolo AMQP para producer/consumer |
-| **RabbitMQ UI** | http://localhost:15672 | Interfaz de gestión (guest/guest) |
+| **RabbitMQ UI** | <http://localhost:15672> | Interfaz de gestión (guest/guest) |
 
 ### Endpoints del Productor
 
@@ -308,6 +294,7 @@ curl -X POST "http://localhost:8080/api/messages/send?message=Mensaje3"
 Envía un mensaje a la cola de RabbitMQ.
 
 **Parámetros:**
+
 - `message` (query param, string): Contenido del mensaje
 
 **Ejemplo:**
@@ -346,6 +333,7 @@ Mensaje 'Mi primer evento' enviado!
 ### Archivos de Configuración
 
 **producer-service/src/main/resources/application.properties:**
+
 ```properties
 spring.application.name=producer-service
 server.port=8080
@@ -359,6 +347,7 @@ app.rabbitmq.routingkey=messages.routingkey
 ```
 
 **consumer-service/src/main/resources/application.properties:**
+
 ```properties
 spring.application.name=consumer-service
 spring.rabbitmq.host=rabbitmq
@@ -433,108 +422,6 @@ docker image rm jesusjc15/consumer-service:latest
 
 ---
 
-## 🛑 Troubleshooting
-
-### ❌ Error: `unknown shorthand flag: 'd' in -d`
-
-**Causa:** Estás usando `docker compose` (plugin V2) en un entorno que solo tiene `docker-compose` (V1).
-
-**Solución:**
-
-```bash
-docker-compose up -d     # Usa el binario clásico
-```
-
----
-
-### ❌ Error 405 "Method Not Allowed" al abrir `/api/messages/send` en navegador
-
-**Causa:** El endpoint solo acepta `POST`. El navegador hace `GET` por defecto.
-
-**Soluciones:**
-
-1. **Usa `curl`:**
-   ```bash
-   curl -X POST "http://localhost:8080/api/messages/send?message=test"
-   ```
-
-2. **Usa una herramienta HTTP** (Hoppscotch, Postman, etc.) y selecciona método POST
-
----
-
-### ❌ Consumidor no recibe mensajes
-
-**Verifica:**
-
-1. RabbitMQ está corriendo:
-   ```bash
-   docker-compose ps | grep rabbitmq
-   ```
-
-2. El consumidor está conectado a RabbitMQ:
-   ```bash
-   docker-compose logs consumer | grep "Created new connection"
-   ```
-
-3. La cola existe en RabbitMQ UI:
-   - Abre http://localhost:15672 → Queues
-   - Verifica que aparezca `messages.queue`
-
-4. Los puertos están expuestos correctamente:
-   ```bash
-   docker-compose ps
-   ```
-
----
-
-### ❌ Puerto 8080 ya está en uso
-
-**Solución:** Cambia el puerto en `docker-compose.yml`:
-
-```yaml
-producer:
-  ports:
-    - "9090:8080"    # Puerto local 9090 → contenedor 8080
-```
-
-Luego vuelve a levantar:
-
-```bash
-docker-compose down
-docker-compose up -d
-```
-
----
-
-### ❌ RabbitMQ tarda en iniciar
-
-**Síntoma:** `docker-compose ps` muestra RabbitMQ con status `unhealthy` o `health: starting`.
-
-**Solución:** Espera más tiempo (~45 segundos). RabbitMQ 3.13 requiere inicializar el schema.
-
-```bash
-# Monitorea el estado de salud
-docker-compose ps
-
-# O visualiza logs de RabbitMQ
-docker-compose logs rabbitmq
-```
-
----
-
-### ❌ Erro de conexión: "Connection refused" en Consumer
-
-**Causa:** El consumidor intenta conectarse a RabbitMQ antes de que esté listo.
-
-**Solución:** Está automatizado con `depends_on` y `healthcheck`. Si persiste:
-
-```bash
-docker-compose down -v
-docker-compose up -d
-```
-
----
-
 ## 📚 Recursos Adicionales
 
 ### Documentación
@@ -546,9 +433,9 @@ docker-compose up -d
 
 ### Imágenes Docker usadas
 
-- **Producer & Consumer:** 
-  - `jesusjc15/producer-service:latest` 
-  - `jesusjc15/consumer-service:latest` 
+- **Producer & Consumer:**
+  - `jesusjc15/producer-service:latest`
+  - `jesusjc15/consumer-service:latest`
   - (Publicadas en Docker Hub)
   
 - **RabbitMQ:** `rabbitmq:3.13-management` (imagen oficial)
@@ -590,40 +477,3 @@ Este patrón es perfecto para:
 - ✅ Microservicios desacoplados
 - ✅ Sistemas de colas para tareas pesadas
 - ✅ Integración entre sistemas legacy y modernos
-
----
-
-## 🔄 Mejoras Futuras
-
-Posibles mejoras al proyecto:
-
-- [ ] Implementar Dead Letter Queue (DLQ) para manejar mensajes fallidos
-- [ ] Agregar retry logic con exponential backoff
-- [ ] Implementar message filtering y routing condicional
-- [ ] Agregar soporte para diferentes tipos de mensajes
-- [ ] Monitoreo con Prometheus/Grafana
-- [ ] Trazabilidad distribuida con Jaeger
-- [ ] Persistencia de eventos en base de datos
-- [ ] Implementar SAGA pattern para transacciones distribuidas
-
----
-
-## 📄 Licencia
-
-MIT License - Siéntete libre de usarlo en tus proyectos.
-
----
-
-## 👤 Autor
-
-**JesusJC15** - [GitHub](https://github.com/JesusJC15)
-
----
-
-## 🙏 Contribuciones
-
-¿Encontraste un bug? ¿Tienes una mejora? ¡Abre un issue o haz un pull request!
-
----
-
-**¡Gracias por usar event-driven-lab! 🎉**
